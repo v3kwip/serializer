@@ -6,11 +6,11 @@
     "homepage": "https://github.com/andytruong/serializer",
     "license": "MIT",
     "authors": [
-      {
-          "name": "Andy Truong"
-          , "email": "thehongtt@gmail.com"
-          , "homepage": "http://v3k.net/"
-          , "role": "Lead Developer"
+        {
+            "name": "Andy Truong"
+            , "email": "thehongtt@gmail.com"
+            , "homepage": "http://v3k.net/"
+            , "role": "Lead Developer"
       }
     ],
     "require": {
@@ -23,8 +23,8 @@
         "doctrine/orm": "~2.4.0"
     },
     "autoload": {
-      "psr-4": {
-        "AndyTruong\\Serializer\\": "src/"
-      }
+        "psr-4": {
+            "AndyTruong\\Serializer\\": "src/"
+        }
     }
 }
