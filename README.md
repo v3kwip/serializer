@@ -1,7 +1,7 @@
 Common
 ======
 
-[![Build Status](https://api.travis-ci.org/andytruong/serializer.svg?branch=v0.1)](https://travis-ci.org/andytruong/serializer) [![Latest Stable Version](https://poser.pugx.org/andytruong/serializer/v/stable.png)](https://packagist.org/packages/andytruong/serializer) [![Dependency Status](https://www.versioneye.com/php/andytruong:serializer/2.3.0/badge.svg)](https://www.versioneye.com/php/andytruong:serializer/2.3.0) [![License](https://poser.pugx.org/andytruong/serializer/license.png)](https://packagist.org/packages/andytruong/serializer) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d869a5d3-e766-472d-9dd5-e2ca012b9148/mini.png)](https://insight.sensiolabs.com/projects/d869a5d3-e766-472d-9dd5-e2ca012b9148)
+[![Build Status](https://api.travis-ci.org/andytruong/serializer.svg?branch=v0.1)](https://travis-ci.org/andytruong/serializer) [![Latest Stable Version](https://poser.pugx.org/andytruong/serializer/v/stable.png)](https://packagist.org/packages/andytruong/serializer) [![Dependency Status](https://www.versioneye.com/php/andytruong:serializer/2.3.0/badge.svg)](https://www.versioneye.com/php/andytruong:serializer/2.3.0) [![License](https://poser.pugx.org/andytruong/serializer/license.png)](https://packagist.org/packages/andytruong/serializer)
 
 Very simple Serializer/Unserializer for PHP objects.
 
