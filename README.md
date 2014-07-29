@@ -54,3 +54,21 @@ $person_with_father = $unserializer->fromArray([
         'father' => ['name' => 'Johnson English']
     ]);
 ```
+
+From PHP 5.4, we can use this Trait:
+
+```php
+<?php
+class NewPerson extends Person {
+  use \AndyTruong\Serializer\SerializableTrait;
+}
+
+// Unserialize
+$person = NewPerson::fromArray([
+  'name' => 'Johnson English',
+  'father' => ['name' => 'Johnson America']
+]);
+
+// Serialize
+$person->toArray();
+```
