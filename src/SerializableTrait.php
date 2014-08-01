@@ -32,7 +32,7 @@ trait SerializableTrait
      * @param string $pty
      * @return mixed
      */
-    protected function getPropertyValue($pty, $include_null)
+    protected function getPropertyValue($pty, $include_null, $max_nesting)
     {
         $return = $this->{$pty};
 
@@ -46,7 +46,9 @@ trait SerializableTrait
         }
 
         if (is_object($return) && method_exists($return, 'toArray')) {
-            $return = $return->toArray($include_null);
+            if (($this !== $return) && ($max_nesting > 0)) {
+                $return = $return->toArray($include_null, $max_nesting - 1);
+            }
         }
 
         return $return;
@@ -86,14 +88,14 @@ trait SerializableTrait
      * @param boolean $include_null
      * @return array
      */
-    public function toArray($include_null = false)
+    public function toArray($include_null = false, $max_nesting = 3)
     {
         $array = array();
 
         foreach ((new ReflectionClass($this))->getProperties() as $pty) {
             /* @var $pty ReflectionProperty */
-            $value = $this->getPropertyValue($pty->getName(), $include_null);
-            if ((null !== $value) || (null === $value && $include_null)) {
+            $value = $this->getPropertyValue($pty->getName(), $include_null, $max_nesting);
+            if ((null !== $value) || ((null === $value) && $include_null)) {
                 $array[$pty->getName()] = $value;
             }
         }
