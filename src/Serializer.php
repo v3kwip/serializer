@@ -40,7 +40,7 @@ class Serializer
      * @param boolean $include_null
      * @return mixed
      */
-    protected function getPropertyValue($obj, $pty, $include_null)
+    protected function getPropertyValue($obj, $pty, $include_null, $max_nesting)
     {
         $return = null;
 
@@ -61,7 +61,9 @@ class Serializer
         }
 
         if (is_object($return)) {
-            $return = $this->toArray($return, $include_null);
+            if (($this !== $return) && ($max_nesting > 0)) {
+                $return = $this->toArray($return, $include_null);
+            }
         }
 
         return $return;
@@ -74,14 +76,14 @@ class Serializer
      * @param bool $include_null
      * @return array
      */
-    public function toArray($obj, $include_null = false)
+    public function toArray($obj, $include_null = false, $max_nesting = 3)
     {
         $array = array();
 
         $r_class = new ReflectionClass($obj);
         foreach ($r_class->getProperties() as $pty) {
             /* @var $pty ReflectionProperty */
-            $value = $this->getPropertyValue($obj, $pty->getName(), $include_null);
+            $value = $this->getPropertyValue($obj, $pty->getName(), $include_null, $max_nesting);
             if ((null !== $value) || (null === $value && $include_null)) {
                 $array[$pty->getName()] = $value;
             }
