@@ -1,4 +1,4 @@
-Common
+Serializer
 ======
 
 [![Build Status](https://api.travis-ci.org/andytruong/serializer.svg?branch=v0.1)](https://travis-ci.org/andytruong/serializer) [![Latest Stable Version](https://poser.pugx.org/andytruong/serializer/v/stable.png)](https://packagist.org/packages/andytruong/serializer) [![Dependency Status](https://www.versioneye.com/php/andytruong:serializer/2.3.0/badge.svg)](https://www.versioneye.com/php/andytruong:serializer/2.3.0) [![License](https://poser.pugx.org/andytruong/serializer/license.png)](https://packagist.org/packages/andytruong/serializer)
