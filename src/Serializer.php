@@ -83,6 +83,10 @@ class Serializer
         $r_class = new ReflectionClass($obj);
         foreach ($r_class->getProperties() as $pty) {
             /* @var $pty ReflectionProperty */
+            if ($pty->isStatic()) {
+                continue;
+            }
+            
             $value = $this->getPropertyValue($obj, $pty->getName(), $include_null, $max_nesting);
             if ((null !== $value) || (null === $value && $include_null)) {
                 $array[$pty->getName()] = $value;
