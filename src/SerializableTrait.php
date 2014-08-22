@@ -118,7 +118,9 @@ trait SerializableTrait
         $me = new static();
 
         foreach ($input as $pty => $value) {
-            $me->setPropertyValue($pty, $value);
+            if (null !== $value) {
+                $me->setPropertyValue($pty, $value);
+            }
         }
 
         return $me;
