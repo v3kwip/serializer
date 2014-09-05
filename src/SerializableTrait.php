@@ -40,7 +40,7 @@ trait SerializableTrait
         $r_class = new ReflectionClass($this);
         foreach (array('get', 'is', 'has') as $prefix) {
             $method = $prefix . $camelPty;
-            if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic()) {
+            if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic() && !count($r_class->getMethod($method)->getParameters())) {
                 $return = $this->{$method}();
                 break;
             }
