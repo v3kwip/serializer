@@ -42,6 +42,7 @@ trait SerializableTrait
             $method = $prefix . $camelPty;
             if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic()) {
                 $return = $this->{$method}();
+                break;
             }
         }
 
