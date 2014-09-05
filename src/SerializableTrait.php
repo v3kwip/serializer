@@ -83,6 +83,14 @@ trait SerializableTrait
     }
 
     /**
+     * @return ReflectionProperty[]
+     */
+    protected function getReflectionProperties()
+    {
+        return (new ReflectionClass($this))->getProperties();
+    }
+
+    /**
      * Represent object as array.
      *
      * @param boolean $include_null
@@ -92,7 +100,7 @@ trait SerializableTrait
     {
         $array = array();
 
-        foreach ((new ReflectionClass($this))->getProperties() as $pty) {
+        foreach ($this->getReflectionProperties() as $pty) {
             /* @var $pty ReflectionProperty */
             if ($pty->isStatic()) {
                 continue;
