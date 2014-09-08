@@ -74,6 +74,7 @@ class Serializer
      *
      * @param stdClass $obj
      * @param bool $includeNull
+     * @param int $maxNesting
      * @return array
      */
     public function toArray($obj, $includeNull = false, $maxNesting = 3)
@@ -101,11 +102,12 @@ class Serializer
      *
      * @param stdClass $obj
      * @param bool $includeNull
+     * @param int $maxNesting
      * @return string
      */
-    public function toJSON($obj, $includeNull = false)
+    public function toJSON($obj, $includeNull = false, $maxNesting = 3)
     {
-        return json_encode($this->toArray($obj, $includeNull));
+        return json_encode($this->toArray($obj, $includeNull, $maxNesting));
     }
 
 }

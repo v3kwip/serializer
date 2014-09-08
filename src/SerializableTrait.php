@@ -95,6 +95,7 @@ trait SerializableTrait
      * Represent object as array.
      *
      * @param boolean $includeNull
+     * @param int $maxNesting
      * @return array
      */
     public function toArray($includeNull = false, $maxNesting = 3)
@@ -138,13 +139,14 @@ trait SerializableTrait
     /**
      * Represent object in json format.
      *
-     * @param boolean $include_null
+     * @param boolean $includeNull
      * @param int $options
+     * @param int $maxNesting
      * @return string
      */
-    public function toJSON($include_null = false, $options = 0)
+    public function toJSON($includeNull = false, $options = 0, $maxNesting = 3)
     {
-        return json_encode($this->toArray($include_null), $options);
+        return json_encode($this->toArray($includeNull, $maxNesting), $options);
     }
 
     /**
