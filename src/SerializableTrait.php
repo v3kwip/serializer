@@ -32,23 +32,23 @@ trait SerializableTrait
      * @param string $pty
      * @return mixed
      */
-    protected function getPropertyValue($pty, $include_null, $max_nesting)
+    protected function getPropertyValue($pty, $includeNull, $maxNesting)
     {
         $return = $this->{$pty};
 
         $camelPty = $this->camelize($pty);
-        $r_class = new ReflectionClass($this);
+        $rClass = new ReflectionClass($this);
         foreach (array('get', 'is', 'has') as $prefix) {
             $method = $prefix . $camelPty;
-            if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic() && !count($r_class->getMethod($method)->getParameters())) {
+            if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic() && !count($rClass->getMethod($method)->getParameters())) {
                 $return = $this->{$method}();
                 break;
             }
         }
 
         if (is_object($return) && method_exists($return, 'toArray')) {
-            if (($this !== $return) && ($max_nesting > 0)) {
-                $return = $return->toArray($include_null, $max_nesting - 1);
+            if (($this !== $return) && ($maxNesting > 0)) {
+                $return = $return->toArray($includeNull, $maxNesting - 1);
             }
         }
 
@@ -65,17 +65,17 @@ trait SerializableTrait
     public function setPropertyValue($pty, $value)
     {
         $method = 'set' . $this->camelize($pty);
-        $r_class = new ReflectionClass($this);
+        $rClass = new ReflectionClass($this);
 
-        if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic()) {
-            if (is_array($value) && $type_hint = $r_class->getMethod($method)->getParameters()[0]->getClass()) {
-                if (method_exists($type_hint->getName(), 'fromArray')) {
-                    $value = call_user_func([$type_hint->getName(), 'fromArray'], $value);
+        if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
+            if (is_array($value) && $typeHint = $rClass->getMethod($method)->getParameters()[0]->getClass()) {
+                if (method_exists($typeHint->getName(), 'fromArray')) {
+                    $value = call_user_func([$typeHint->getName(), 'fromArray'], $value);
                 }
             }
             $this->{$method}($value);
         }
-        elseif ($r_class->hasProperty($pty) && $r_class->getProperty($pty)->isPublic()) {
+        elseif ($rClass->hasProperty($pty) && $rClass->getProperty($pty)->isPublic()) {
             $this->{$pty} = $value;
         }
         else {
@@ -94,10 +94,10 @@ trait SerializableTrait
     /**
      * Represent object as array.
      *
-     * @param boolean $include_null
+     * @param boolean $includeNull
      * @return array
      */
-    public function toArray($include_null = false, $max_nesting = 3)
+    public function toArray($includeNull = false, $maxNesting = 3)
     {
         $array = array();
 
@@ -107,8 +107,8 @@ trait SerializableTrait
                 continue;
             }
 
-            $value = $this->getPropertyValue($pty->getName(), $include_null, $max_nesting);
-            if ((null !== $value) || ((null === $value) && $include_null)) {
+            $value = $this->getPropertyValue($pty->getName(), $includeNull, $maxNesting);
+            if ((null !== $value) || ((null === $value) && $includeNull)) {
                 $array[$pty->getName()] = $value;
             }
         }

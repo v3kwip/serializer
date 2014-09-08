@@ -98,11 +98,11 @@ class Unserializer
     public function setPropertyValue($obj, $pty, $value)
     {
         $method = 'set' . $this->camelize($pty);
-        $r_class = new ReflectionClass($obj);
+        $rClass = new ReflectionClass($obj);
 
-        if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic()) {
+        if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
             // object's property should be an other object, cast it here
-            if (($params = $r_class->getMethod($method)->getParameters()) && $params[0]->getClass()) {
+            if (($params = $rClass->getMethod($method)->getParameters()) && $params[0]->getClass()) {
                 try {
                     $value = $this->convertPropertyValue($value, $params[0]->getClass()->getName());
                 }
@@ -114,7 +114,7 @@ class Unserializer
             // Inject value to object's property
             $obj->{$method}($value);
         }
-        elseif ($r_class->hasProperty($pty) && $r_class->getProperty($pty)->isPublic()) {
+        elseif ($rClass->hasProperty($pty) && $rClass->getProperty($pty)->isPublic()) {
             $obj->{$pty} = $value;
         }
         else {
@@ -125,19 +125,19 @@ class Unserializer
     /**
      *
      * @param int|array $in
-     * @param string $to_type
+     * @param string $toType
      * @return mixed
      */
-    protected function convertPropertyValue($in, $to_type)
+    protected function convertPropertyValue($in, $toType)
     {
         if ($this->hasEntityManager() && is_numeric($in)) {
-            if ($repository = $this->getEntityManager()->getRepository($to_type)) {
+            if ($repository = $this->getEntityManager()->getRepository($toType)) {
                 return $repository->find($in);
             }
         }
 
         if (is_array($in)) {
-            return $this->fromArray($in, $to_type);
+            return $this->fromArray($in, $toType);
         }
 
         throw new \RuntimeException();
@@ -147,17 +147,15 @@ class Unserializer
      * Convert array to object.
      *
      * @param array $array
-     * @param string $class_name
+     * @param string $className
      * @return stdClass
      */
-    public function fromArray($array, $class_name)
+    public function fromArray($array, $className)
     {
-        $obj = new $class_name;
-
+        $obj = new $className;
         foreach ($array as $pty => $value) {
             $this->setPropertyValue($obj, $pty, $value);
         }
-
         return $obj;
     }
 
@@ -165,11 +163,11 @@ class Unserializer
      * Convert json string to object.
      *
      * @param string $json
-     * @param string $class_name
+     * @param string $className
      */
-    public function fromJSON($json, $class_name)
+    public function fromJSON($json, $className)
     {
-        return $this->fromArray(json_decode($json), $class_name);
+        return $this->fromArray(json_decode($json), $className);
     }
 
 }

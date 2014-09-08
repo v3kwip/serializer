@@ -37,32 +37,32 @@ class Serializer
      *
      * @param stdClass $obj
      * @param string $pty
-     * @param boolean $include_null
+     * @param boolean $includeNull
      * @return mixed
      */
-    protected function getPropertyValue($obj, $pty, $include_null, $max_nesting)
+    protected function getPropertyValue($obj, $pty, $includeNull, $maxNesting)
     {
         $return = null;
 
         $camelPty = $this->camelize($pty);
-        $r_class = new ReflectionClass($obj);
+        $rClass = new ReflectionClass($obj);
 
         // property is public
-        if (property_exists($obj, $pty) && $r_class->getProperty($pty)->isPublic()) {
+        if (property_exists($obj, $pty) && $rClass->getProperty($pty)->isPublic()) {
             $return = $obj->{$pty};
         }
         else {
             foreach (array('get', 'is', 'has') as $prefix) {
                 $method = $prefix . $camelPty;
-                if ($r_class->hasMethod($method) && $r_class->getMethod($method)->isPublic()) {
+                if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
                     $return = $obj->{$method}();
                 }
             }
         }
 
         if (is_object($return)) {
-            if (($this !== $return) && ($max_nesting > 0)) {
-                $return = $this->toArray($return, $include_null);
+            if (($this !== $return) && ($maxNesting > 0)) {
+                $return = $this->toArray($return, $includeNull);
             }
         }
 
@@ -73,22 +73,22 @@ class Serializer
      * Convert object to array.
      *
      * @param stdClass $obj
-     * @param bool $include_null
+     * @param bool $includeNull
      * @return array
      */
-    public function toArray($obj, $include_null = false, $max_nesting = 3)
+    public function toArray($obj, $includeNull = false, $maxNesting = 3)
     {
         $array = array();
 
-        $r_class = new ReflectionClass($obj);
-        foreach ($r_class->getProperties() as $pty) {
+        $rClass = new ReflectionClass($obj);
+        foreach ($rClass->getProperties() as $pty) {
             /* @var $pty ReflectionProperty */
             if ($pty->isStatic()) {
                 continue;
             }
-            
-            $value = $this->getPropertyValue($obj, $pty->getName(), $include_null, $max_nesting);
-            if ((null !== $value) || (null === $value && $include_null)) {
+
+            $value = $this->getPropertyValue($obj, $pty->getName(), $includeNull, $maxNesting);
+            if ((null !== $value) || (null === $value && $includeNull)) {
                 $array[$pty->getName()] = $value;
             }
         }
@@ -100,12 +100,12 @@ class Serializer
      * Represent object in json format.
      *
      * @param stdClass $obj
-     * @param bool $include_null
+     * @param bool $includeNull
      * @return string
      */
-    public function toJSON($obj, $include_null = false)
+    public function toJSON($obj, $includeNull = false)
     {
-        return json_encode($this->toArray($obj, $include_null));
+        return json_encode($this->toArray($obj, $includeNull));
     }
 
 }
