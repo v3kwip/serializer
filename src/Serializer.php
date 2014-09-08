@@ -56,6 +56,7 @@ class Serializer
                 $method = $prefix . $camelPty;
                 if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
                     $return = $obj->{$method}();
+                    break;
                 }
             }
         }
