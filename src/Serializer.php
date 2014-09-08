@@ -81,8 +81,7 @@ class Serializer
     {
         $array = array();
 
-        $rClass = new ReflectionClass($obj);
-        foreach ($rClass->getProperties() as $pty) {
+        foreach ((new ReflectionClass($obj))->getProperties() as $pty) {
             /* @var $pty ReflectionProperty */
             if ($pty->isStatic()) {
                 continue;
