@@ -8,6 +8,8 @@ use RuntimeException;
 trait UnserializeTrait
 {
 
+    use \AndyTruong\Event\EventAwareTrait;
+
     /**
      * Set property.
      *

@@ -18,6 +18,8 @@ use stdClass;
 class Serializer
 {
 
+    use \AndyTruong\Event\EventAwareTrait;
+
     /**
      * Get value of an object using has|is|get method.
      *
@@ -56,6 +58,15 @@ class Serializer
         return $return;
     }
 
+    protected function getObjectPropertyReflections($obj)
+    {
+        $rp = (new ReflectionClass($obj))->getProperties();
+        if ($this->hasDispatcher()) {
+            $this->trigger('serialize.properties', $rp);
+        }
+        return $rp;
+    }
+
     /**
      * Convert object to array.
      *
@@ -68,7 +79,7 @@ class Serializer
     {
         $array = array();
 
-        foreach ((new ReflectionClass($obj))->getProperties() as $pty) {
+        foreach ($this->getObjectPropertyReflections($obj) as $pty) {
             /* @var $pty ReflectionProperty */
             if ($pty->isStatic()) {
                 continue;
