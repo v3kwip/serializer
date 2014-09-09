@@ -18,6 +18,8 @@ use stdClass;
 class Serializer
 {
 
+    use \AndyTruong\Event\EventAwareTrait;
+
     /**
      * Get value of an object using has|is|get method.
      *
@@ -56,6 +58,18 @@ class Serializer
         return $return;
     }
 
+    protected function getObjectPropertyReflections($obj)
+    {
+        $rp = (new ReflectionClass($obj))->getProperties();
+        if ($this->hasDispatcher()) {
+            $event = new Event();
+            $event->setProperties($rp);
+            $this->dispatch('serialize.properties', $event);
+            return $event->getProperties();
+        }
+        return $rp;
+    }
+
     /**
      * Convert object to array.
      *
@@ -64,11 +78,11 @@ class Serializer
      * @param int $maxNesting
      * @return array
      */
-    public function toArray($obj, $includeNull = false, $maxNesting = 3)
+    public function toArray($obj, $includeNull = false, $maxNesting = 3, $dispatch = true)
     {
         $array = array();
 
-        foreach ((new ReflectionClass($obj))->getProperties() as $pty) {
+        foreach ($this->getObjectPropertyReflections($obj) as $pty) {
             /* @var $pty ReflectionProperty */
             if ($pty->isStatic()) {
                 continue;
@@ -78,6 +92,13 @@ class Serializer
             if ((null !== $value) || (null === $value && $includeNull)) {
                 $array[$pty->getName()] = $value;
             }
+        }
+
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setOutArray($array);
+            $this->dispatch('serialize.array', $event);
+            return $event->getOutArray();
         }
 
         return $array;
@@ -91,9 +112,18 @@ class Serializer
      * @param int $maxNesting
      * @return string
      */
-    public function toJSON($obj, $includeNull = false, $maxNesting = 3)
+    public function toJSON($obj, $includeNull = false, $maxNesting = 3, $dispatch = true)
     {
-        return json_encode($this->toArray($obj, $includeNull, $maxNesting));
+        $return = json_encode($this->toArray($obj, $includeNull, $maxNesting, false));
+
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setOutArray($return);
+            $this->dispatch('serialize.json', $event);
+            return $event->getOutArray();
+        }
+
+        return $return;
     }
 
 }

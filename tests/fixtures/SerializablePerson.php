@@ -2,6 +2,9 @@
 
 namespace AndyTruong\Serializer\Fixtures;
 
+use ReflectionClass;
+use ReflectionProperty;
+
 class SerializablePerson
 {
 

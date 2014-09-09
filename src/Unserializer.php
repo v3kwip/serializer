@@ -38,6 +38,8 @@ use stdClass;
 class Unserializer
 {
 
+    use \AndyTruong\Event\EventAwareTrait;
+
     /**
      * Entity manager.
      *
@@ -150,12 +152,19 @@ class Unserializer
      * @param string $className
      * @return stdClass
      */
-    public function fromArray($array, $className)
+    public function fromArray($array, $className, $dispatch = true)
     {
         $obj = new $className;
         foreach ($array as $pty => $value) {
             $this->setPropertyValue($obj, $pty, $value);
         }
+
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setOutObject($obj);
+            $this->dispatch('unserialize.array', $event);
+        }
+
         return $obj;
     }
 
@@ -165,9 +174,17 @@ class Unserializer
      * @param string $json
      * @param string $className
      */
-    public function fromJSON($json, $className)
+    public function fromJSON($json, $className, $dispatch = false)
     {
-        return $this->fromArray(json_decode($json), $className);
+        $obj = $this->fromArray(json_decode($json), $className, false);
+
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setOutObject($obj);
+            $this->dispatch('unserialize.json', $event);
+        }
+
+        return $obj;
     }
 
 }
