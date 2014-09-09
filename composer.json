@@ -11,10 +11,10 @@
             , "email": "thehongtt@gmail.com"
             , "homepage": "http://v3k.net/"
             , "role": "Lead Developer"
-      }
+        }
     ],
     "require": {
-        "php": ">=5.3.8"
+        "php": ">=5.4"
     },
     "require-dev": {
         "doctrine/orm": "~2.4.0"
