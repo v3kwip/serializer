@@ -32,7 +32,7 @@ class UnserializerTest extends PHPUnit_Framework_TestCase
     {
         $unserializer = new Unserializer();
         $person_array = array('name' => 'Matt T.', 'country' => 'Vietnam');
-        $person = $unserializer->fromArray($person_array, 'AndyTruong\Serializer\Fixtures\Person');
+        $unserializer->fromArray($person_array, 'AndyTruong\Serializer\Fixtures\Person');
     }
 
     public function testAutoloading()

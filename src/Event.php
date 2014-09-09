@@ -11,6 +11,7 @@ class Event extends BaseEvent
     /** @var ReflectionProperty[] */
     private $properties;
     private $outArray;
+    private $outObject;
 
     public function setProperties(array $properties)
     {
@@ -30,6 +31,16 @@ class Event extends BaseEvent
     function setOutArray($outArray)
     {
         $this->outArray = $outArray;
+    }
+
+    function getOutObject()
+    {
+        return $this->outObject;
+    }
+
+    function setOutObject($outObject)
+    {
+        $this->outObject = $outObject;
     }
 
 }
