@@ -62,7 +62,10 @@ class Serializer
     {
         $rp = (new ReflectionClass($obj))->getProperties();
         if ($this->hasDispatcher()) {
-            $this->trigger('serialize.properties', $rp);
+            $event = new Event();
+            $event->setProperties($rp);
+            $this->dispatch('serialize.properties', $event);
+            return $event->getProperties();
         }
         return $rp;
     }
@@ -75,7 +78,7 @@ class Serializer
      * @param int $maxNesting
      * @return array
      */
-    public function toArray($obj, $includeNull = false, $maxNesting = 3)
+    public function toArray($obj, $includeNull = false, $maxNesting = 3, $dispatch = true)
     {
         $array = array();
 
@@ -91,6 +94,13 @@ class Serializer
             }
         }
 
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setOutArray($array);
+            $this->dispatch('serialize.array', $event);
+            return $event->getOutArray();
+        }
+
         return $array;
     }
 
@@ -102,9 +112,18 @@ class Serializer
      * @param int $maxNesting
      * @return string
      */
-    public function toJSON($obj, $includeNull = false, $maxNesting = 3)
+    public function toJSON($obj, $includeNull = false, $maxNesting = 3, $dispatch = true)
     {
-        return json_encode($this->toArray($obj, $includeNull, $maxNesting));
+        $return = json_encode($this->toArray($obj, $includeNull, $maxNesting, false));
+
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setOutArray($return);
+            $this->dispatch('serialize.json', $event);
+            return $event->getOutArray();
+        }
+
+        return $return;
     }
 
 }
