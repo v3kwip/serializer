@@ -38,6 +38,8 @@ use stdClass;
 class Unserializer
 {
 
+    use \AndyTruong\Event\EventAwareTrait;
+
     /**
      * Entity manager.
      *
