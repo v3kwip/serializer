@@ -54,7 +54,7 @@ class Serializer
         else {
             foreach (array('get', 'is', 'has') as $prefix) {
                 $method = $prefix . $camelPty;
-                if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
+                if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic() && !count($rClass->getMethod($method)->getParameters())) {
                     $return = $obj->{$method}();
                     break;
                 }
