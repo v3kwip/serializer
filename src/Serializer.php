@@ -19,20 +19,6 @@ class Serializer
 {
 
     /**
-     * Camelizes a given string.
-     *
-     * @param  string $string Some string
-     *
-     * @return string The camelized version of the string
-     */
-    protected function camelize($string)
-    {
-        return preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
-            return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
-        }, $string);
-    }
-
-    /**
      * Get value of an object using has|is|get method.
      *
      * @param stdClass $obj
@@ -44,7 +30,7 @@ class Serializer
     {
         $return = null;
 
-        $camelPty = $this->camelize($pty);
+        $camelPty = at_camelize($pty);
         $rClass = new ReflectionClass($obj);
 
         // property is public

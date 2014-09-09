@@ -4,27 +4,12 @@ namespace AndyTruong\Serializer;
 
 use ReflectionClass;
 use ReflectionProperty;
-use RuntimeException;
 
 /**
  * Trait provide fromArray() and toArray methods, simple way for serialization.
  */
 trait SerializableTrait
 {
-
-    /**
-     * Camelizes a given string.
-     *
-     * @param  string $string Some string
-     *
-     * @return string The camelized version of the string
-     */
-    private function camelize($string)
-    {
-        return preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
-            return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
-        }, $string);
-    }
 
     /**
      * Get a property in object.
@@ -36,7 +21,7 @@ trait SerializableTrait
     {
         $return = $this->{$pty};
 
-        $camelPty = $this->camelize($pty);
+        $camelPty = at_camelize($pty);
         $rClass = new ReflectionClass($this);
         foreach (array('get', 'is', 'has') as $prefix) {
             $method = $prefix . $camelPty;
@@ -53,34 +38,6 @@ trait SerializableTrait
         }
 
         return $return;
-    }
-
-    /**
-     * Set property.
-     *
-     * @param string $pty
-     * @param mixed $value
-     * @throws \RuntimeException
-     */
-    public function setPropertyValue($pty, $value)
-    {
-        $method = 'set' . $this->camelize($pty);
-        $rClass = new ReflectionClass($this);
-
-        if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
-            if (is_array($value) && $typeHint = $rClass->getMethod($method)->getParameters()[0]->getClass()) {
-                if (method_exists($typeHint->getName(), 'fromArray')) {
-                    $value = call_user_func([$typeHint->getName(), 'fromArray'], $value);
-                }
-            }
-            $this->{$method}($value);
-        }
-        elseif ($rClass->hasProperty($pty) && $rClass->getProperty($pty)->isPublic()) {
-            $this->{$pty} = $value;
-        }
-        else {
-            throw new RuntimeException(sprintf('Object.%s is not writable.', $pty));
-        }
     }
 
     /**
@@ -118,25 +75,6 @@ trait SerializableTrait
     }
 
     /**
-     * Simple fromArray factory.
-     *
-     * @param array $input
-     * @return EntitiyTraitTest
-     */
-    public static function fromArray($input)
-    {
-        $me = new static();
-
-        foreach ($input as $pty => $value) {
-            if (null !== $value) {
-                $me->setPropertyValue($pty, $value);
-            }
-        }
-
-        return $me;
-    }
-
-    /**
      * Represent object in json format.
      *
      * @param boolean $includeNull
@@ -147,17 +85,6 @@ trait SerializableTrait
     public function toJSON($includeNull = false, $options = 0, $maxNesting = 3)
     {
         return json_encode($this->toArray($includeNull, $maxNesting), $options);
-    }
-
-    /**
-     * Create new object from json string.
-     *
-     * @param string $input
-     * @return static
-     */
-    public static function fromJSON($input)
-    {
-        return static::fromArray(json_decode($input, true));
     }
 
 }
