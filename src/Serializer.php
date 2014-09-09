@@ -60,14 +60,21 @@ class Serializer
 
     protected function getObjectPropertyReflections($obj)
     {
-        $rp = (new ReflectionClass($obj))->getProperties();
+        $rClass = new ReflectionClass($obj);
+        $rProperties = $rClass->getProperties();
+
+        if ($rcParent = $rClass->getParentClass()) {
+            $rProperties = array_merge($rProperties, $rcParent->getProperties());
+        }
+
         if ($this->hasDispatcher()) {
             $event = new Event();
-            $event->setProperties($rp);
+            $event->setInObj($obj);
+            $event->setProperties($rProperties);
             $this->dispatch('serialize.properties', $event);
             return $event->getProperties();
         }
-        return $rp;
+        return $rProperties;
     }
 
     /**

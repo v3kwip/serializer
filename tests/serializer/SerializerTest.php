@@ -2,6 +2,7 @@
 
 namespace AndyTruong\Serializer\TestCases\Services;
 
+use AndyTruong\Serializer\Fixtures\Integer;
 use AndyTruong\Serializer\Fixtures\Person;
 use AndyTruong\Serializer\Serializer;
 use PHPUnit_Framework_TestCase;
@@ -25,6 +26,13 @@ class SerializerTest extends PHPUnit_Framework_TestCase
 
         $expected = array('name' => 'James T.', 'father' => array('name' => 'Andy T.'));
         $this->AssertEquals($expected, $serializer->toArray($person));
+    }
+
+    public function testExportParentProperties()
+    {
+        $serializer = new Serializer();
+        $int = new Integer(1);
+        $this->assertEquals(['value' => 1], $serializer->toArray($int));
     }
 
 }
