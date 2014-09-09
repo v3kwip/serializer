@@ -20,14 +20,16 @@ Then we can easy create new Person object from a structured array:
 <?php
 $person = new Person();
 $person->setName('Johnson American');
-(new AndyTruong\Serializer\Serializer())->toArray($person); // ['name' => 'Johnson American']
+(new AndyTruong\Serializer\Serializer())
+    ->toArray($person); // ['name' => 'Johnson American']
 ```
 
 We can also easy create new Person object from a structured array:
 
 ```php
 <?php
-$person = (new AndyTruong\Serializer\Unserializer())->fromArray(['name' => 'Johnson America']);
+$person = (new AndyTruong\Serializer\Unserializer())
+    ->fromArray(['name' => 'Johnson America']);
 ```
 
 The library also supports Trait, nested objects, … check ./resources/docs for
