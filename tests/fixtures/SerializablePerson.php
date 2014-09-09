@@ -5,7 +5,8 @@ namespace AndyTruong\Serializer\Fixtures;
 class SerializablePerson
 {
 
-    use \AndyTruong\Serializer\SerializableTrait;
+    use \AndyTruong\Serializer\SerializableTrait,
+        \AndyTruong\Serializer\UnserializeTrait;
 
     /**
      * Name of Person.

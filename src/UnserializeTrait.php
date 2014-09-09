@@ -40,18 +40,16 @@ trait UnserializeTrait
      * Simple fromArray factory.
      *
      * @param array $input
-     * @return EntitiyTraitTest
+     * @return self
      */
     public static function fromArray($input)
     {
         $me = new static();
-
         foreach ($input as $pty => $value) {
             if (null !== $value) {
                 $me->setPropertyValue($pty, $value);
             }
         }
-
         return $me;
     }
 

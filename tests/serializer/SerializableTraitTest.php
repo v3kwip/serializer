@@ -11,15 +11,6 @@ use PHPUnit_Framework_TestCase;
 class SerializableTraitTest extends PHPUnit_Framework_TestCase
 {
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        if (-1 === version_compare(phpversion(), '5.4')) {
-            $this->markTestSkipped('Trait is only available in PHP 5.4');
-        }
-    }
-
     public function testFromToArray()
     {
         $father = SerializablePerson::fromArray(array('name' => 'Andy T'));
@@ -29,13 +20,13 @@ class SerializableTraitTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('AndyTruong\Serializer\Fixtures\SerializablePerson', $person);
 
         $this->assertEquals(array(
-            'name' => 'James T',
+            'name'   => 'James T',
             'father' => array('name' => 'Andy T')
             ), $person->toArray()
         );
 
         $this->assertEquals(array(
-            'name' => 'James T',
+            'name'   => 'James T',
             'father' => array('name' => 'Andy T')
             ), $person->toArray(false)
         );
