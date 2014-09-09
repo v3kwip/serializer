@@ -2,6 +2,9 @@
 
 namespace AndyTruong\Serializer\Fixtures;
 
+use ReflectionClass;
+use ReflectionProperty;
+
 class SerializablePerson
 {
 
@@ -41,6 +44,20 @@ class SerializablePerson
     {
         $this->father = $father;
         return $this;
+    }
+
+    /**
+     * @return ReflectionProperty[]
+     */
+    protected function getReflectionProperties()
+    {
+        $pty = (new ReflectionClass($this))->getProperties();
+        foreach ($pty as $i => $item) {
+            if ('dispatcher' === $item->getName()) {
+                unset($pty[$i]);
+            }
+        }
+        return $pty;
     }
 
 }
