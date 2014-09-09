@@ -63,6 +63,7 @@ class Serializer
         $rp = (new ReflectionClass($obj))->getProperties();
         if ($this->hasDispatcher()) {
             $event = new Event();
+            $event->setInObj($obj);
             $event->setProperties($rp);
             $this->dispatch('serialize.properties', $event);
             return $event->getProperties();
@@ -96,6 +97,7 @@ class Serializer
 
         if ($dispatch && $this->hasDispatcher()) {
             $event = new Event();
+            $event->setInObj($obj);
             $event->setOutArray($array);
             $this->dispatch('serialize.array', $event);
             return $event->getOutArray();
@@ -118,6 +120,7 @@ class Serializer
 
         if ($dispatch && $this->hasDispatcher()) {
             $event = new Event();
+            $event->setInObj($obj);
             $event->setOutArray($return);
             $this->dispatch('serialize.json', $event);
             return $event->getOutArray();
