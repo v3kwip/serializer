@@ -97,7 +97,7 @@ class Unserializer
      */
     public function setPropertyValue($obj, $pty, $value)
     {
-        $method = 'set' . $this->camelize($pty);
+        $method = 'set' . at_camelize($pty);
         $rClass = new ReflectionClass($obj);
 
         if ($rClass->hasMethod($method) && $rClass->getMethod($method)->isPublic()) {
