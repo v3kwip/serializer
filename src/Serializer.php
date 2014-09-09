@@ -36,7 +36,7 @@ class Serializer
         $rClass = new ReflectionClass($obj);
 
         // property is public
-        if (property_exists($obj, $pty) && $rClass->getProperty($pty)->isPublic()) {
+        if ($rClass->hasProperty($pty) && $rClass->getProperty($pty)->isPublic()) {
             $return = $obj->{$pty};
         }
         else {
