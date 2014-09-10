@@ -159,6 +159,7 @@ class Unserializer
             $event->setInClassName($className);
             $event->setInArray($array);
             $this->dispatch('unserialize.array.before', $event);
+            $array = $event->getInArray();
         }
 
         $obj = new $className;
