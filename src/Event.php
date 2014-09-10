@@ -8,6 +8,12 @@ use Symfony\Component\EventDispatcher\Event as BaseEvent;
 class Event extends BaseEvent
 {
 
+    /** @var string */
+    private $inClassName;
+
+    /** @var array */
+    private $inArray;
+
     /** @var object */
     private $inObj;
 
@@ -19,6 +25,16 @@ class Event extends BaseEvent
 
     /** @var object */
     private $outObject;
+
+    function getInClassName()
+    {
+        return $this->inClassName;
+    }
+
+    function setInClassName($inClassName)
+    {
+        $this->inClassName = $inClassName;
+    }
 
     function getInObj()
     {
@@ -48,6 +64,16 @@ class Event extends BaseEvent
     function setOutArray($outArray)
     {
         $this->outArray = $outArray;
+    }
+
+    function getInArray()
+    {
+        return $this->inArray;
+    }
+
+    function setInArray($inArray)
+    {
+        $this->inArray = $inArray;
     }
 
     function getOutObject()

@@ -14,7 +14,9 @@ $serializer->toArray($myObject);
 ### Events
 
 - `serialize.properties`
-- `serialize.array`
-- `serialize.json`
+- `serialize.array.before`
+- `serialize.array.after`
+- `serialize.json.before`
+- `serialize.json.after`
 - `unserialize.array`
 - `unserialize.json`

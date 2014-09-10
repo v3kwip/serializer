@@ -154,6 +154,13 @@ class Unserializer
      */
     public function fromArray($array, $className, $dispatch = true)
     {
+        if ($dispatch && $this->hasDispatcher()) {
+            $event = new Event();
+            $event->setInClassName($className);
+            $event->setInArray($array);
+            $this->dispatch('unserialize.array.before', $event);
+        }
+
         $obj = new $className;
         foreach ($array as $pty => $value) {
             $this->setPropertyValue($obj, $pty, $value);
@@ -161,8 +168,10 @@ class Unserializer
 
         if ($dispatch && $this->hasDispatcher()) {
             $event = new Event();
+            $event->setInClassName($className);
+            $event->setInArray($array);
             $event->setOutObject($obj);
-            $this->dispatch('unserialize.array', $event);
+            $this->dispatch('unserialize.array.after', $event);
         }
 
         return $obj;
