@@ -1,4 +1,4 @@
 tests/           export-ignore
-resources/docs/    export-ignore
+resources/docs/  export-ignore
 .travis.yml      export-ignore
 phpunit.xml.dist export-ignore
