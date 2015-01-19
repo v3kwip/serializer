@@ -34,3 +34,5 @@ $person = (new AndyTruong\Serializer\Unserializer())
 
 The library also supports Trait, nested objects, … check ./resources/docs for
 more informations.
+
+!
