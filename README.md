@@ -1,4 +1,4 @@
-Serializer [![Build Status](https://api.travis-ci.org/andytruong/serializer.svg?branch=v0.1)](https://travis-ci.org/andytruong/serializer) [![Latest Stable Version](https://poser.pugx.org/andytruong/serializer/v/stable.png)](https://packagist.org/packages/andytruong/serializer) [![License](https://poser.pugx.org/andytruong/serializer/license.png)](https://packagist.org/packages/andytruong/serializer)
+Serializer [![Build Status](https://api.travis-ci.org/atphp/serializer.svg?branch=v0.1)](https://travis-ci.org/atphp/serializer) [![Latest Stable Version](https://poser.pugx.org/atphp/serializer/v/stable.png)](https://packagist.org/packages/atphp/serializer) [![License](https://poser.pugx.org/atphp/serializer/license.png)](https://packagist.org/packages/atphp/serializer)
 ======
 
 Very simple Serializer/Unserializer for PHP objects.
