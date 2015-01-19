@@ -1,5 +1,5 @@
 {
-    "name": "andytruong/serializer",
+    "name": "atphp/serializer",
     "type": "library",
     "description": "Very simple library to serialize/unserialize PHP objects.",
     "keywords": ["serializer", "json"],
@@ -15,8 +15,8 @@
     ],
     "require": {
         "php": ">=5.4",
-        "andytruong/phpfns": "~0.1.0",
-        "andytruong/event": "~0.1.0"
+        "atphp/phpfns": "~0.1.0",
+        "atphp/event": "~0.1.0"
     },
     "require-dev": {
         "doctrine/orm": "~2.4.0"
